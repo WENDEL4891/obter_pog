@@ -1,0 +1,7 @@
+.ipynb_checkpoints/
+.tool-versions
+.venv/
+*.gpkg
+__pycache__/
+main.ipynb
+resultados/*
