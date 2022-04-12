@@ -1,27 +1,38 @@
 print('Iniciando execução...')
 
+from socket import gaierror
 import pandas as pd
 import numpy as np
 import geopandas as gpd
 from impala.dbapi import connect
 from datetime import datetime
 from datetime import timedelta
+import sys
 
 import constants
 print('Bibliotecas importadas')
 
 # CONEXÃO COM BANCO DE DADOS CLOUDERA
-conn = connect(host='clouderalb.prodemge.gov.br', port=21050, use_ssl=True, auth_mechanism="PLAIN",
+try:
+    conn = connect(host='clouderalb.prodemge.gov.br', port=21050, use_ssl=True, auth_mechanism="PLAIN",
                user='s134894', password='vndrls', database='reds_reporting')
+    cursor = conn.cursor()
+except:
+    print('Conexão com o banco de dados OK')
+    print('Conecte com a rede da PRODEMGE, desconecte outras redes, aguarde cerca de 30 segundos e execute novamente.')
+    sys.exit()
 
-cursor = conn.cursor()
-print('Conexão com o banco de dados OK')
 
 # EXECUTA QUERY E TRATA DADOS
-cursor.execute(constants.query_pog)
+try:
+    cursor.execute(constants.query_pog)
+    results = cursor.fetchall()
+    columns = [c[0] for c in cursor.description]
+except:
+    print('Conexão com o banco de dados OK')
+    print('Conecte com a rede da PRODEMGE, desconecte outras redes, aguarde cerca de 30 segundos e execute novamente.')
+    sys.exit()
 
-results = cursor.fetchall()
-columns = [c[0] for c in cursor.description]
 df = pd.DataFrame(results, columns=columns)
 
 cursor.close()
@@ -91,9 +102,9 @@ ontem_formatado = datetime.strftime(ontem,"%d-%m-%Y")
 writer = pd.ExcelWriter(f'resultados/POG_01-01-2022_A_{ontem_formatado}.xlsx', engine='xlsxwriter')
 
 # Armazena cada df em uma planilha diferente do mesmo arquivo
-df_cias.to_excel(writer, sheet_name='por_cias')
-df_cias_municipios.to_excel(writer, sheet_name='por_cias_e_municipios')
-df.to_excel(writer, sheet_name='lista_todos_os_registros')
+df_cias.to_excel(writer, sheet_name='por_cias', index=False)
+df_cias_municipios.to_excel(writer, sheet_name='por_cias_e_municipios', index=False)
+df.to_excel(writer, sheet_name='lista_todos_os_registros', index=False)
 
 # Fecha o ExcelWriter e gera o arquivo .xlsx
 writer.save()
