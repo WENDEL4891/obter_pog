@@ -102,8 +102,8 @@ ontem_formatado = datetime.strftime(ontem,"%d-%m-%Y")
 writer = pd.ExcelWriter(f'resultados/POG_01-01-2022_A_{ontem_formatado}.xlsx', engine='xlsxwriter')
 
 # Armazena cada df em uma planilha diferente do mesmo arquivo
-df_cias.to_excel(writer, sheet_name='por_cias', index=False)
-df_cias_municipios.to_excel(writer, sheet_name='por_cias_e_municipios', index=False)
+df_cias.to_excel(writer, sheet_name='por_cias')
+df_cias_municipios.to_excel(writer, sheet_name='por_cias_e_municipios')
 df.to_excel(writer, sheet_name='lista_todos_os_registros', index=False)
 
 # Fecha o ExcelWriter e gera o arquivo .xlsx
