@@ -60,7 +60,7 @@ for index, row in df.iterrows():
 
 df = df[
     [
-        'numero_ocorrencia', 'data_hora_inclusao', 'data_hora_alteracao', 'data_hora_fechamento', 'digitador_cargo_efetivo', 'digitador_matricula', 'data_hora_fato', 'data_hora_comunicacao', 'natureza_codigo', 'natureza_descricao', 'natureza_descricao_longa', 'complemento_natureza_descricao_longa', 'logradouro_nome', 'tipo_logradouro_descricao', 'descricao_endereco', 'descricao_endereco_2', 'numero_endereco', 'descricao_complemento_endereco', 'nome_bairro', 'nome_municipio', 'descricao_ponto_referencia', 'numero_latitude', 'numero_longitude', 'data_hora_local', 'data_hora_final', 'historico_ocorrencia', 'relator_matricula', 'relator_nome', 'relator_cargo', 'relator_nome_unidade', 'unidade_area_militar_nome', 'unidade_responsavel_registro_nome', 'cep', 'data_hora_fim_preenchimento', 'MES', 'DIA', 'geometry', 'CIA', 'SETOR'        
+        'numero_ocorrencia', 'data_hora_inclusao', 'data_hora_alteracao', 'data_hora_fechamento', 'digitador_cargo_efetivo', 'digitador_matricula', 'digitador_nome', 'data_hora_fato', 'data_hora_comunicacao', 'natureza_codigo', 'natureza_descricao', 'natureza_descricao_longa', 'complemento_natureza_descricao_longa', 'logradouro_nome', 'tipo_logradouro_descricao', 'descricao_endereco', 'descricao_endereco_2', 'numero_endereco', 'descricao_complemento_endereco', 'nome_bairro', 'nome_municipio', 'descricao_ponto_referencia', 'numero_latitude', 'numero_longitude', 'data_hora_local', 'data_hora_final', 'historico_ocorrencia', 'relator_matricula', 'relator_nome', 'relator_cargo', 'relator_nome_unidade', 'unidade_area_militar_nome', 'unidade_responsavel_registro_nome', 'cep', 'data_hora_fim_preenchimento', 'MES', 'DIA', 'geometry', 'CIA', 'SETOR'        
     ]
 ]
 
@@ -102,8 +102,8 @@ ontem_formatado = datetime.strftime(ontem,"%d-%m-%Y")
 writer = pd.ExcelWriter(f'resultados/POG_01-01-2022_A_{ontem_formatado}.xlsx', engine='xlsxwriter')
 
 # Armazena cada df em uma planilha diferente do mesmo arquivo
-df_cias.to_excel(writer, sheet_name='por_cias', index=False)
-df_cias_municipios.to_excel(writer, sheet_name='por_cias_e_municipios', index=False)
+df_cias.to_excel(writer, sheet_name='por_cias')
+df_cias_municipios.to_excel(writer, sheet_name='por_cias_e_municipios')
 df.to_excel(writer, sheet_name='lista_todos_os_registros', index=False)
 
 # Fecha o ExcelWriter e gera o arquivo .xlsx
